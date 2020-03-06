@@ -1,0 +1,11 @@
+/evenodd.wasm
+/evenodd_opt.wat
+/fact_test_for_wabt.0.wasm
+/fact_test_for_wabt.json
+/fact_test_for_wabt.wast
+/hello42.wasm
+/module1.wasm
+/module2.wasm
+/simpleallocate.wasm
+/simpleallocate_opt.wasm
+/simpleallocate_opt.wat
