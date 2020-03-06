@@ -54,3 +54,16 @@ Or you can use `wat2wasm` and `wasm2wat` from WABT:
 
     $ wat2wasm fact.wat
     $ wasm2wat fact.wasm
+
+
+The guides
+----------
+
+The repository currently contains the following guides:
+
+* [Testing with the reference interpreter](code/Testing_with_reference_interpreter.md)
+* [Optimising with Binaryen](code/Optimising_with_binaryen.md)
+
+Files referred to in the guides are in the [code directory](./code),
+plus a few more examples that I haven't gotten around writing guides
+for yet.
