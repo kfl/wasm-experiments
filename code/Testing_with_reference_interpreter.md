@@ -4,7 +4,7 @@ Testing with the reference interpreter
 Setup
 -----
 
-You have some WASM code in `fact.wat` that you want to test.
+You have some WASM code in [`fact.wat`](fact.wat) that you want to test.
 
 You have installed the [WebAssembly reference
 interpreter](https://github.com/WebAssembly/spec/tree/master/interpreter),
@@ -15,8 +15,8 @@ Writting and running tests
 --------------------------
 
 I like to write my tests in a separate file WAST, here
-`fact_test.wast`, and keep my WAT files in pure WAT which can then be
-processed with other tools.
+[`fact_test.wast`](fact_test.wast), and keep my WAT files in pure WAT
+which can then be processed with other tools.
 
 The structure of my WAST scripts is typically to read in the WAT
 file(s) under test with the `input` meta command (see the first line
