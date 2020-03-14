@@ -5,12 +5,34 @@ Implementation of a simple copying garbage collector in
 [AssemblyScript](https://docs.assemblyscript.org).
 
 
-Build
------
+Build and run tests
+-------------------
 
-To build the entry file to WebAssembly, run:
+To compile the AssemblyScript to WebAssembly, run:
 
     $ npm run asbuild
+
+To run the tests:
+
+    $ npm test
+
+
+Files of interest
+-----------------
+
+ * `assembly/copygc.ts` contains the implementation of a simple
+   semi-space copying garbage collector.
+
+ * `assembly/smoketest.ts` contains a few functions that exercise the
+   GC API. The function `makework(m, n)` will create a list
+   (represented with pairs) with `m` elements and then reverse it `n`
+   times (creating a fresh copy each time).
+
+ * `test/index.ts` calls `makework` and check that we get the expected
+   result.
+
+The directory `build` will contain the files `untouched.{wat,wasm}`
+and `optimized.{wat,wasm}` which is the resulting WebAssembly.
 
 
 API
