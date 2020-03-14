@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "asbuild:untouched": "asc assembly/copygc.ts --runtime none -b build/untouched.wasm -t build/untouched.wat --validate --sourceMap --debug",
-    "asbuild:optimized": "asc assembly/copygc.ts --runtime none -b build/optimized.wasm -t build/optimized.wat --validate --sourceMap --optimize",
+    "asbuild:untouched": "asc assembly/copygc.ts assembly/smoketest.ts --runtime none -b build/untouched.wasm -t build/untouched.wat --validate --sourceMap --debug",
+    "asbuild:optimized": "asc assembly/copygc.ts assembly/smoketest.ts --runtime none -b build/optimized.wasm -t build/optimized.wat --validate --sourceMap --optimize",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "test": "node tests"
   },
