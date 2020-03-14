@@ -107,3 +107,12 @@ function copy(p: u32): u32 {
     return header.forward;
   }
 }
+
+export function push_frame(n: u32): u32 {
+  shadow_top -= n * WORD_SIZE;
+  return shadow_top;
+}
+
+export function pop_frame(n: u32): void {
+  shadow_top += n * WORD_SIZE;
+}
