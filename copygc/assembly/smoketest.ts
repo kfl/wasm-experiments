@@ -1,4 +1,4 @@
-import { push_frame, pop_frame, getfield, setfield, allocate } from "./copygc";
+import { allocate, push_frame, pop_frame, getfield, setfield } from "./copygc";
 
 // ---- API smoke tests ----
 

@@ -18,9 +18,13 @@ function observe(xs) {
 }
 
 myModule.init_memory(1);
-let n = 10000;
-let xs = myModule.makework(n, 1000);
+let elems = 10000;
+let n = 2000;
+console.log(`Create a list with ${elems} elements and reverse it ${n} times`);
+console.time("makework");
+let xs = myModule.makework(elems, n);
+console.timeEnd("makework");
 //observe(xs);
-assert.equal(len(xs), n);
+assert.equal(len(xs), elems);
 
 console.log("ok");

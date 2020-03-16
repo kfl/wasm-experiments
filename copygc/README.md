@@ -32,7 +32,8 @@ Files of interest
    result.
 
 The directory `build` will contain the files `untouched.{wat,wasm}`
-and `optimized.{wat,wasm}` which is the resulting WebAssembly.
+and `optimized.{wat,wasm}` which is the resulting WebAssembly after
+compiling the AssemblyScript.
 
 
 API
@@ -51,3 +52,55 @@ The public API consists of the functions:
 
  * `pop_frame(n: i32)` pops a frame of `n` words from the shadow
    stack. Push and pop should match in their arguments.
+
+ * `getfield(p: i32, i: i32) : i32` for getting the `i`'th field of
+   `p`.
+
+ * `setfield(p: i32, i: i32, x: i32)` for setting the `i`'th field of
+   `p` to `x`.
+
+The collector is a *moving* collector, which means that it moves
+allocated objects during collection. Thus, it is not safe to have
+local variables containing pointers. Instead local variables with
+pointers should be stored in a frame on the shadow stack (allocated
+with `push_frame`) before allocating (every call to `allocate` might
+trigger a collection). Every `push_frame` should have a matching
+`pop_frame`; otherwise space is leaked on the shadow stack.
+
+Every field in an allocated objects is either a pointer, or an
+*unboxed* integer. As all pointers are four byte aligned we a can use
+the least significant bit for representing unboxed integers. Thus, we
+represent an unboxed integer `n` as `2n+1`.
+
+
+
+Issues
+------
+
+ * The biggest issues is that `copy` is recursive. Thus, if there is
+   a deeply nested data structure on the heap, the collector with
+   exhaust the stack.
+
+   This issue can be provoked with `makework` by creating a list with
+   100000 elements. Creating the list is not a problem, but when the
+   collector kicks in (after a few reversals) the stack is exhausted.
+
+ * The current API for `push_frame` is slightly sub-optimal. When we
+   create a new frame all elements are initialised to zero. However,
+   most (all?) of the time we overwrite the frame with the actual
+   content. A more optimal solution would be to take the initial
+   content of the frame as arguments.
+
+ * There is no sanity or error checking. For instance, `allocate`
+   assumes that there is enough room on the heap after a collections
+   (the right solution would be to grow the heap if needed). Likewise,
+   all pointers reachable by the collector is assumed to into the
+   heap.
+
+ * There is no support for large objects. Thus, large long-lived
+   objects will be copied repeatably by the collector.
+
+ * Memory return from `allocate` is not initialised, and may contain
+   garbage that could confuse the collector. The mutator is expected
+   to initialise memory before `allocate` is called again. This is
+   inconsistent with `push_frame` and should be streamlined.
