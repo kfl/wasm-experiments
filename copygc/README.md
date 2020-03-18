@@ -67,18 +67,33 @@ with `push_frame`) before allocating (every call to `allocate` might
 trigger a collection). Every `push_frame` should have a matching
 `pop_frame`; otherwise space is leaked on the shadow stack.
 
-Every field in an allocated objects is either a pointer, or an
+Every field in an allocated object is either a pointer, or an
 *unboxed* integer. As all pointers are four byte aligned we a can use
 the least significant bit for representing unboxed integers. Thus, we
 represent an unboxed integer `n` as `2n+1`.
 
+
+Alternative design
+------------------
+
+Treating every field in an allocated object as a pointer or
+an unboxed integer has the disadvantage that we don't have opaque
+objects. That is, objects where the collector copy the data, rather
+than chasing pointers. Opaque objects are needed for representing boxed
+integers and floats, or strings.
+
+To support opaque objects, we can extend `HEADER` with an extra
+`tag` field that we can use to specify if an object is opaque or
+not. However, currently we use 32 bit for the field `wosize` (size of
+the allocated object in words), and no object will ever need all 32
+bits, so we could repurpose a couple of bits of `wosize` for the tag.
 
 
 Issues
 ------
 
  * The biggest issues is that `copy` is recursive. Thus, if there is
-   a deeply nested data structure on the heap, the collector with
+   a deeply nested data structure on the heap, the collector will
    exhaust the stack.
 
    This issue can be provoked with `makework` by creating a list with
@@ -100,7 +115,8 @@ Issues
  * There is no support for large objects. Thus, large long-lived
    objects will be copied repeatably by the collector.
 
- * Memory return from `allocate` is not initialised, and may contain
+ * Memory returned from `allocate` is not initialised, and may contain
    garbage that could confuse the collector. The mutator is expected
    to initialise memory before `allocate` is called again. This is
-   inconsistent with `push_frame` and should be streamlined.
+   inconsistent with `push_frame` and the two functions should be
+   streamlined.
