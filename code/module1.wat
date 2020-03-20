@@ -1,6 +1,6 @@
 (module
   (import "shared" "memory" (memory 1))
-  (import "shared" "table" (table 1 anyfunc))
+  (import "shared" "table" (table 1 funcref))
   (elem (i32.const 0) $read1)  ;; set table[0] to read1 for indirect calling
 
   (func $read1 (result i32)

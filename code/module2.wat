@@ -1,8 +1,8 @@
 (module
+  (import "env" "print_i32" (func $print (param i32)))
   (import "shared" "memory" (memory 1))
-  (import "shared" "table" (table 1 anyfunc))
+  (import "shared" "table" (table 1 funcref))
 
-  (import "io" "print" (func $print (param i32)))
   (import "module1" "read0" (func $m1_read0 (result i32)))
 
   (type $void_to_i32 (func (result i32)))
