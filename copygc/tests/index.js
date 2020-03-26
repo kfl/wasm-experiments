@@ -2,19 +2,19 @@ const assert = require("assert");
 const myModule = require("..");
 
 function len(xs) {
-    let n = 0;
-    while( xs != 0 ) {
-        xs = myModule.getfield(xs, 1);
-        n += 1;
-    }
-    return n;
+  let n = 0;
+  while( xs != 0 ) {
+    xs = myModule.getfield(xs, 1);
+    n += 1;
+  }
+  return n;
 }
 
 function observe(xs) {
-    while( xs != 0 ) {
-        console.log(myModule.getfield(xs, 0));
-        xs = myModule.getfield(xs, 1);
-    }
+  while( xs != 0 ) {
+    console.log(myModule.getfield(xs, 0));
+    xs = myModule.getfield(xs, 1);
+  }
 }
 
 myModule.init_memory(1);
