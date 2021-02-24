@@ -16,9 +16,11 @@ else
 	CLANG := clang
 endif
 
+
 .PRECIOUS: %.wasm
-%.wasm: %.c
-	$(CLANG) --target=wasm32 --no-standard-libraries -Oz -Wl,--export-all -Wl,--no-entry -o $@ $<
+%.wasm: %.c Makefile
+  # Use -O1 instead of -Oz if you don't want clang to remove recursion so aggressively
+	$(CLANG) --target=wasm32 --no-standard-libraries -Oz -g -Wl,--export-all -Wl,--no-entry -o $@ $<
 
 %.wat: %.wasm
 	wasm2wat $< --fold-expr -o $@
