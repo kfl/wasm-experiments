@@ -20,7 +20,7 @@ endif
 .PRECIOUS: %.wasm
 %.wasm: %.c Makefile
   # Use -O1 instead of -Oz if you don't want clang to remove recursion so aggressively
-	$(CLANG) --target=wasm32 --no-standard-libraries -Oz -g -Wl,--export-all -Wl,--no-entry -o $@ $<
+	$(CLANG) --target=wasm32 --no-standard-libraries -std=gnu11 -Oz -g -Wl,--export-all -Wl,--no-entry -o $@ $<
 
 %.wat: %.wasm
 	wasm2wat $< --fold-expr -o $@
